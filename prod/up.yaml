@@ -1,0 +1,13 @@
+---
+- name: Deploy Fun Fact App (No ngrok)
+  hosts: localhost
+  tasks:
+    - name: Install dependencies
+      pip:
+        requirements: "{{ playbook_dir }}/../app/requirements.txt"
+
+    - name: Start Flask App
+      shell: |
+        nohup python3 {{ playbook_dir }}/../app/app.py &
+      async: 60
+      poll: 0

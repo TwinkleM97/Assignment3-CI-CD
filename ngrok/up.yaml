@@ -1,0 +1,18 @@
+---
+# Exposed at: https://e6a62518a851.ngrok-free.app
+- name: Deploy Fun Fact App with Ngrok
+  hosts: localhost
+  tasks:
+    - name: Install dependencies
+      pip:
+        requirements: "{{ playbook_dir }}/../app/requirements.txt"
+
+    - name: Start Flask App
+      shell: |
+        nohup python3 {{ playbook_dir }}/../app/app.py &
+      async: 60
+      poll: 0
+
+    - name: Start ngrok
+      shell: |
+        nohup ngrok http 5000 > ngrok.log &
